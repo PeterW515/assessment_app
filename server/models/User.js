@@ -4,7 +4,6 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 const bcrypt = require('bcrypt');
 
-// Initialize Product model (table) by extending off Sequelize's Model class
 class User extends Model {
   isCorrectPassword = async function (password) {
     return bcrypt.compare(password, this.password);
@@ -46,13 +45,13 @@ User.init(
       },
       beforeUpdate: async (updatedUserData) => {
         if (updatedUserData.password) {
-        updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
         }
         return updatedUserData;
       },
     },
     sequelize,
-    timestamps: false,
+    timestamps: true,
     freezeTableName: true,
     underscored: true,
     modelName: 'user',

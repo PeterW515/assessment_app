@@ -1,31 +1,28 @@
 const jwt = require('jsonwebtoken');
+const config = require('config');
 
-const secret = 'mysecretssshhhhhhh'; // TODO: move to .env
-const expiration = '2h';
+module.exports = function (req, res, next) {
+  console.log('ok');
+  // Get token from header
+  const token = req.header('x-auth-token');
 
-module.exports = {
-  authMiddleware: function ({ req }) {
-    let token = req.body.token || req.query.token || req.headers.authorization;
+  // Check if not token
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, authorization denied' });
+  }
 
-    if (req.headers.authorization) {
-      token = token.split(' ').pop().trim();
-    }
-
-    if (!token) {
-      return req;
-    }
-
-    try {
-      const { data } = jwt.verify(token, secret, { maxAge: expiration });
-      req.user = data;
-    } catch {
-      console.log('Invalid token');
-    }
-
-    return req;
-  },
-  signToken: function ({ email, username, id }) {
-    const payload = { email, username, id };
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-  },
+  // Verify token
+  try {
+    jwt.verify(token, config.get('jwtSecret'), (error, decoded) => {
+      if (error) {
+        return res.status(401).json({ msg: 'Token is not valid' });
+      } else {
+        req.user = decoded.user;
+        next();
+      }
+    });
+  } catch (err) {
+    console.error('something wrong with auth middleware');
+    res.status(500).json({ msg: 'Server Error' });
+  }
 };
