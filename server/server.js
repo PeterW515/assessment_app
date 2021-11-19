@@ -11,6 +11,8 @@ app.use(express.json());
 
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
+app.use('/api/clients', require('./routes/api/clients'));
+app.use('/api/assessments', require('./routes/api/assessments'));
 
 
 // if (process.env.NODE_ENV === 'production') {
@@ -22,6 +24,7 @@ app.use('/api/auth', require('./routes/api/auth'));
 // });
 
 const PORT = process.env.PORT || 3001;
+
 
 
 db.sync().then(() => {
