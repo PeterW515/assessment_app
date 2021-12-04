@@ -37,3 +37,12 @@ input[type="password"]:not(.browser-default) {
 .btn {
   background-color: #ff2c45;
 }
+
+.btn:focus {
+  background-color: #ff2c45;
+}
+
+.btn:hover {
+  background-color: #ff2c45;
+  box-shadow: 0px 0px 5px 5px #ff7e8d;
+}
