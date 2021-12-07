@@ -1,11 +1,12 @@
 import React, { Fragment, useState } from 'react';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
 
-const Login = ({ login }) => {
+const Login = ({ login, isAuthenticated }) => {
     const [formState, setFormState] = useState({ email: '', password: '' });
 
 
@@ -24,6 +25,10 @@ const Login = ({ login }) => {
         login(formState.email, formState.password);
     }
 
+    //Redirect if logged in
+    if (isAuthenticated) {
+        return <Navigate to='/clientType' />;
+    }
     return (
         <Fragment>
             <div className="row">
@@ -39,7 +44,7 @@ const Login = ({ login }) => {
             <div className="row">
                 <form onSubmit={e => onSubmit(e)} className="col s10 offset-s1">
                     <div className="input-field col s12">
-                        <label for="email" className="active">Email</label>
+                        <label htmlFor="email" className="active">Email</label>
                         <input
                             className="validate text-input"
                             placeholder="name@example.com"
@@ -51,7 +56,7 @@ const Login = ({ login }) => {
                         />
                     </div>
                     <div className="input-field col s12">
-                        <label for="password" className="active">Password</label>
+                        <label htmlFor="password" className="active">Password</label>
                         <input
                             className="validate"
                             placeholder="********"
@@ -62,7 +67,7 @@ const Login = ({ login }) => {
                             onChange={handleChange}
                         />
                     </div>
-                    <button class="btn waves-effect waves-light col s12" type="submit" name="sign-in">Sign In
+                    <button className="btn waves-effect waves-light col s12" type="submit" name="sign-in">Sign In
                     </button>
                 </form>
             </div>
@@ -72,6 +77,11 @@ const Login = ({ login }) => {
 
 Login.propTypes = {
     login: PropTypes.func.isRequired,
-}
+    isAuthenticated: PropTypes.bool,
+};
 
-export default connect(null, { login })(Login);
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);
