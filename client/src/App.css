@@ -34,6 +34,12 @@ input[type="password"]:not(.browser-default) {
   margin-top: 15px;
 }
 
+input[type="text"]:not(.browser-default) {
+  background-color: white;
+  border: 1px solid gray;
+  margin-top: 15px;
+}
+
 .btn {
   background-color: #ff2c45;
 }
