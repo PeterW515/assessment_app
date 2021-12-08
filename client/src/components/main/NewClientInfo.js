@@ -4,10 +4,11 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { addClient } from '../../actions/data';
+import Assessment from './Assessment';
 
 
 const NewClientInfo = ({ login, isAuthenticated, clientTypeState, setClientTypeState }) => {
-    const [clientFormState, setClientFormState] = useState({ firstName: '', lastName: '', Age: '', Gender: '', Height: '', Weight: '', StandingReach: '' });
+    const [clientFormState, setClientFormState] = useState({ firstName: '', lastName: '', age: '', gender: '', height: '', weight: '', standingReach: '' });
     const [clientState, setClientState] = useState('');
 
     // update state based on form input changes
@@ -22,6 +23,7 @@ const NewClientInfo = ({ login, isAuthenticated, clientTypeState, setClientTypeS
     const onSubmit = async e => {
         e.preventDefault();
         const client = await addClient(clientFormState);
+        console.log(client);
         setClientState(client.id);
     }
 
@@ -117,7 +119,6 @@ const NewClientInfo = ({ login, isAuthenticated, clientTypeState, setClientTypeS
     );
 }
 NewClientInfo.propTypes = {
-    login: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool,
 };
 

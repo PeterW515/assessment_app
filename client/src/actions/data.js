@@ -23,8 +23,7 @@ export const addClient = async ({ firstName, lastName, age, gender, height, weig
 
     try {
         const res = await axios.post('/api/clients', body, config);
-
-
+        return res.data.payload.client;
     } catch (err) {
         console.log(err);
     }
