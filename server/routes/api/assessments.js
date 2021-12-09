@@ -23,7 +23,8 @@ router.post('/', auth, async (req, res) => {
         bench,
         pullUps,
         sitUps,
-        cmj
+        cmj,
+        notes
     } = req.body;
 
     try {
@@ -38,6 +39,7 @@ router.post('/', auth, async (req, res) => {
                 pullUps,
                 sitUps,
                 cmj,
+                notes,
                 recordedBy: (req.user.id)
             }
         );
@@ -54,6 +56,7 @@ router.post('/', auth, async (req, res) => {
                 pullUps: newAssessment.pullUps,
                 sitUps: newAssessment.sitUps,
                 cmj: newAssessment.cmj,
+                notes: newAssessment.notes,
                 recordedBy: newAssessment.recordedBy,
             }
         };

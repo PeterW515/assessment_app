@@ -3,10 +3,10 @@ import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addClient } from '../../actions/data';
+import { addAssessment } from '../../actions/data';
 
 
-const Assessment = ({ login, isAuthenticated, clientTypeState, setClientTypeState }) => {
+const Assessment = ({ login, isAuthenticated, clientTypeState, clientId, setClientTypeState }) => {
     const [assessmentFormState, setAssessmentFormState] = useState({ squat: '', deadlift: '', bench: '', pullUps: '', sitUps: '', cmj: '', notes: '' });
 
     // update state based on form input changes
@@ -20,6 +20,7 @@ const Assessment = ({ login, isAuthenticated, clientTypeState, setClientTypeStat
     };
     const onSubmit = async e => {
         e.preventDefault();
+        const assessment = await addAssessment(assessmentFormState, clientId);
 
     }
 
@@ -68,6 +69,17 @@ const Assessment = ({ login, isAuthenticated, clientTypeState, setClientTypeStat
                             id="pullUps"
                             type="text"
                             value={assessmentFormState.pullUps}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="input-field col s12">
+                        <label htmlFor="sitUps" className="active">Max Sit Ups</label>
+                        <input
+                            className="validate text-input"
+                            name="sitUps"
+                            id="sitUps"
+                            type="text"
+                            value={assessmentFormState.sitUps}
                             onChange={handleChange}
                         />
                     </div>

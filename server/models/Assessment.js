@@ -29,7 +29,8 @@ Assessment.init(
                 model: 'user',
                 key: 'id',
             },
-        }
+        },
+        notes: DataTypes.TEXT
     },
     {
         sequelize,

@@ -28,7 +28,7 @@ const NewClientInfo = ({ login, isAuthenticated, clientTypeState, setClientTypeS
     }
 
     if (clientState) {
-        return <Assessment />
+        return <Assessment clientId={clientState} />
     }
     return (
         <Fragment>
