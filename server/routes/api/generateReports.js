@@ -5,6 +5,7 @@ const normalize = require('normalize-url');
 const config = require('config');
 const auth = require('../../utils/auth');
 const pdfGeneration = require('../../utils/pdfGeneration');
+const path = require('path');
 
 
 const Client = require('../../models/Client');
@@ -29,7 +30,7 @@ router.get('/clientId/:clientId/assessmentId/:assessmentId', auth, async (req, r
                 .status(404)
                 .json({ errors: [{ msg: "Assessment not found" }] });
         }
-        if (!assessment.clientId == client.id) {
+        if (assessment.clientId != client.id) {
             return res
                 .status(400)
                 .json({ errors: [{ msg: "Bad request: assessment does not belong to client" }] });
@@ -41,8 +42,11 @@ router.get('/clientId/:clientId/assessmentId/:assessmentId', auth, async (req, r
             assessmentSummary: assessment
         }
 
-        pdfGeneration(responsePayload);
-        res.json(responsePayload);
+        const doc = pdfGeneration(responsePayload);
+        await doc.save(path.join(__dirname, "../../resources/assessments/" + client.id + "_" + assessment.id + "_assessment.pdf"));
+
+        res.download(path.join(__dirname, "../../resources/assessments/" + client.id + "_" + assessment.id + "_assessment.pdf"));
+
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

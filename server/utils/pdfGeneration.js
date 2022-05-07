@@ -130,6 +130,6 @@ module.exports = function (data) {
     doc.text("@wonderflyathletics", 6.5, 10);
     doc.text("wonderflyathletics.com", 6.5, 10.2);
 
-
-    doc.save("../assessment.pdf");
+    return doc;
+    //doc.save("../resources/assessments/" + clientHeader.id + "_" + assessmentSummary.id + "_assessment.pdf");
 }
