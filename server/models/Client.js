@@ -27,7 +27,7 @@ Client.init(
             references: {
                 model: 'user',
                 key: 'id',
-            },
+            }
         }
     },
     {

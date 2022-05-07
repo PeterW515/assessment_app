@@ -10,16 +10,16 @@ class User extends Model {
   };
 }
 
-// set up fields and rules for Product model
+// set up fields and rules for User model
 User.init(
   {
-    username: {
+    firstName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true,
-      },
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,

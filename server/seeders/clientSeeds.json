@@ -1,0 +1,29 @@
+[
+  {
+    "firstName": "Tom",
+    "lastName": "Sawyer",
+    "age": 17,
+    "gender": "Male",
+    "height": 60,
+    "weight": 130,
+    "standingReach": 90
+  },
+  {
+    "firstName": "Huck",
+    "lastName": "Finn",
+    "age": 19,
+    "gender": "Male",
+    "height": 62,
+    "weight": 140,
+    "standingReach": 90
+  },
+  {
+    "firstName": "Holden",
+    "lastName": "Caufield",
+    "age": 24,
+    "gender": "Male",
+    "height": 67,
+    "weight": 150,
+    "standingReach": 95
+  }
+]

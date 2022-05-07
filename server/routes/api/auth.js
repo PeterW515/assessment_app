@@ -14,7 +14,7 @@ const User = require('../../models/User');
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      attributes: ['id', 'username', 'email']
+      attributes: ['id', 'firstName', 'lastName', 'email']
     })
     res.json(user);
   } catch (err) {
@@ -39,7 +39,8 @@ router.post(
     const { email, password } = req.body;
 
     try {
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ where: { email } });
+
 
       if (!user) {
         console.log('no user');

@@ -3,29 +3,34 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../../utils/auth');
 const { check, validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 
 const User = require('../../models/User');
 
+
+
 // @route    POST api/users
-// @desc     Register user
+// @desc     Create user
 // @access   Public
 router.post(
   '/',
-  check('username', 'Name is required').notEmpty(),
+  check('firstName', 'First name is required').notEmpty(),
+  check('lastName', 'Last name is required').notEmpty(),
   check('email', 'Please include a valid email').isEmail(),
   check(
     'password',
     'Please enter a password with 6 or more characters'
-  ).isLength({ min: 8 }),
+  ).isLength({ min: 6 }),
   async (req, res) => {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { username, email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
     try {
       let user = await User.findOne({ where: { email } });
@@ -38,14 +43,11 @@ router.post(
 
 
       user = new User({
-        username,
+        firstName,
+        lastName,
         email,
         password
       });
-
-      //commented out to avoid double encryption
-      // const salt = await bcrypt.genSalt(10);
-      // user.password = await bcrypt.hash(password, salt);
 
       await user.save();
 
@@ -70,5 +72,36 @@ router.post(
     }
   }
 );
+
+
+//delete before golive
+// @route    Get api/users
+// @desc     Get all users for testing
+// @access   Public
+router.get('/', async (req, res) => {
+
+  try {
+    const users = await Users.findAll();
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+}
+);
+
+//delete
+// @route    GET api/users/:id
+// @desc     Get one user
+// @access   public
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
