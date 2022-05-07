@@ -171,28 +171,6 @@ router.get('/clientId/:clientId', auth, async (req, res) => {
     }
 });
 
-// @route    GET api/assessments/clientId/:id
-// @desc     Get assessments by client
-// @access   Private
-router.get('/clientId/:clientId', auth, async (req, res) => {
-    try {
-        const client = await Client.findByPk(req.params.clientId);
 
-        if (!client) {
-            return res
-                .status(404)
-                .json({ errors: [{ msg: "Client not found" }] });
-        }
-        const assessments = await Assessment.findAll({ where: { clientId: (client.id) } });
-        let responsePayload = {
-            clientHeader: client,
-            assessmentSummary: assessments
-        }
-        res.json(responsePayload);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error');
-    }
-});
 
 module.exports = router;

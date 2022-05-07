@@ -41,7 +41,7 @@ router.get('/clientId/:clientId/assessmentId/:assessmentId', auth, async (req, r
             assessmentSummary: assessment
         }
 
-        pdfGeneration("data")
+        pdfGeneration(responsePayload);
         res.json(responsePayload);
     } catch (err) {
         console.error(err.message);
