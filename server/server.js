@@ -13,6 +13,8 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/clients', require('./routes/api/clients'));
 app.use('/api/assessments', require('./routes/api/assessments'));
+app.use('/api/generateReports', require('./routes/api/generateReports'));
+
 
 
 if (process.env.NODE_ENV === 'production') {

@@ -15,7 +15,7 @@ Assessment.init(
             },
         },
         assessmentDate: {
-            type: DataTypes.DATEONLY,
+            type: DataTypes.DATEONLY
         },
         squat: DataTypes.INTEGER,
         deadlift: DataTypes.INTEGER,
