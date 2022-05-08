@@ -52,3 +52,7 @@ input[type="text"]:not(.browser-default) {
   background-color: #ff2c45;
   box-shadow: 0px 0px 5px 5px #ff7e8d;
 }
+
+button {
+  margin-top: 10px;
+}

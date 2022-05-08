@@ -4,7 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
-
+import Register from './Register';
 
 const Login = ({ login, isAuthenticated }) => {
     const [formState, setFormState] = useState({ email: '', password: '' });
@@ -23,6 +23,12 @@ const Login = ({ login, isAuthenticated }) => {
     const onSubmit = async e => {
         e.preventDefault();
         login(formState.email, formState.password);
+    }
+
+    const onClick = async e => {
+        e.preventDefault();
+        console.log('ok')
+        return <Register />
     }
 
     //Redirect if logged in
@@ -67,11 +73,19 @@ const Login = ({ login, isAuthenticated }) => {
                             onChange={handleChange}
                         />
                     </div>
-                    <button className="btn waves-effect waves-light col s12" type="submit" name="sign-in">Sign In
+                    <button className="btn waves-effect waves-light col s12" type="submit" name="sign-in">Log In
                     </button>
+
                 </form>
+                <div className='container'>
+                    <row className="container">
+                        <button className="btn waves-effect waves-light col s12" type="button" name="sign-up"
+                            onClick={onClick}>New User? Sign Up
+                        </button>
+                    </row>
+                </div>
             </div>
-        </Fragment>
+        </Fragment >
     );
 };
 

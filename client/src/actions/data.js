@@ -30,6 +30,24 @@ export const addClient = async ({ firstName, lastName, age, gender, height, weig
 
 }
 
+export const addUser = async ({ firstName, lastName, email, password }) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'x-auth-token': localStorage.getItem('token')
+        }
+    }
+
+    const body = JSON.stringify({ firstName, lastName, email, password });
+
+    try {
+        const res = await axios.post('/api/users', body, config);
+        return res.data.payload.client;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 //add assessment
 export const addAssessment = async ({ squat, deadlift, bench, pullUps, sitUps, cmj, notes }, clientId) => {
     const config = {
