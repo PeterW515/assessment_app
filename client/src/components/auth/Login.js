@@ -28,7 +28,7 @@ const Login = ({ login, isAuthenticated }) => {
     const onClick = async e => {
         e.preventDefault();
         console.log('ok')
-        return <Register />
+        return <Link to='/register' />;
     }
 
     //Redirect if logged in
@@ -79,9 +79,7 @@ const Login = ({ login, isAuthenticated }) => {
                 </form>
                 <div className='container'>
                     <row className="container">
-                        <button className="btn waves-effect waves-light col s12" type="button" name="sign-up"
-                            onClick={onClick}>New User? Sign Up
-                        </button>
+                        <Link to='/register' className="btn waves-effect waves-light col s12">New User? Sign Up</Link>
                     </row>
                 </div>
             </div>

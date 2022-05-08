@@ -1,92 +1,113 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { Link, Navigate } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
-import { addUser } from '../../actions/data';
-//import Client from './Client';
 
+const Register = ({ setAlert, register, isAuthenticated }) => {
+    const [formData, setFormData] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        password2: ''
+    });
 
-const NewUserInfo = ({ login, isAuthenticated }) => {
-    const [userFormState, setUserFormState] = useState({ firstName: '', lastName: '', email: '', password: '' });
+    const { firstName, lastName, email, password, password2 } = formData;
 
-    // update state based on form input changes
-    const handleChange = (event) => {
-        const { name, value } = event.target;
+    const onChange = (e) =>
+        setFormData({ ...formData, [e.target.name]: e.target.value });
 
-        setUserFormState({
-            ...userFormState,
-            [name]: value,
-        });
-    };
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        const user = await addUser(userFormState);
-        console.log(user);
+        if (password !== password2) {
+            setAlert('Passwords do not match', 'danger');
+        } else {
+            register({ firstName, lastName, email, password });
+        }
+    };
+
+    if (isAuthenticated) {
+        return <Navigate to="/clientType" />;
     }
 
 
     return (
-        <Fragment>
-            <div className="row">
-                <form onSubmit={e => onSubmit(e)} className="col s10 offset-s1">
-                    <div className="input-field col s12">
-                        <label htmlFor="firstName" className="active">First Name</label>
-                        <input
-                            className="validate text-input"
-                            name="firstName"
-                            id="firstName"
-                            type="text"
-                            value={userFormState.firstName}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="input-field col s12">
-                        <label htmlFor="lastName" className="active">Last Name</label>
-                        <input
-                            className="validate text-input"
-                            name="lastName"
-                            id="lastName"
-                            type="text"
-                            value={userFormState.lastName}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="input-field col s12">
-                        <label htmlFor="email" className="active">Email</label>
-                        <input
-                            className="validate email-input"
-                            name="email"
-                            id="email"
-                            type="email"
-                            value={userFormState.email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="input-field col s12">
-                        <label htmlFor="password" className="active">Password</label>
-                        <input
-                            className="validate password-input"
-                            name="password"
-                            id="password"
-                            type="password"
-                            value={userFormState.password}
-                            onChange={handleChange}
-                        />
-                    </div>
+        <div className="row">
+            <form onSubmit={e => onSubmit(e)} className="col s10 offset-s1">
+                <div className="input-field col s12">
+                    <label htmlFor="firstName" className="active">First Name</label>
+                    <input
+                        className="validate text-input"
+                        name="firstName"
+                        id="firstName"
+                        type="text"
+                        value={firstName}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="input-field col s12">
+                    <label htmlFor="lastName" className="active">Last Name</label>
+                    <input
+                        className="validate text-input"
+                        name="lastName"
+                        id="lastName"
+                        type="text"
+                        value={lastName}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="input-field col s12">
+                    <label htmlFor="email" className="active">Email</label>
+                    <input
+                        className="validate email-input"
+                        name="email"
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="input-field col s12">
+                    <label htmlFor="password" className="active">Password</label>
+                    <input
+                        className="validate password-input"
+                        name="password"
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={onChange}
+                    />
+                </div>
+                <div className="input-field col s12">
+                    <label htmlFor="password2" className="active">Confirm password</label>
+                    <input
+                        className="validate password-input"
+                        name="password2"
+                        id="password2"
+                        type="password"
+                        value={password2}
+                        onChange={onChange}
+                    />
+                </div>
 
-                    <button className="btn waves-effect waves-light col s12" type="submit" name="register-user">Register User
-                    </button>
-                </form>
-            </div>
-        </Fragment>
+                <button className="btn waves-effect waves-light col s12" type="submit" name="register-user">Register User
+                </button>
+            </form>
+        </div>
     );
 }
 
-NewUserInfo.propTypes = {
+
+Register.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(NewUserInfo);
+export default connect(mapStateToProps, { setAlert, register })(Register);

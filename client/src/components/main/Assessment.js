@@ -1,9 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import { Document } from 'react-pdf';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addAssessment } from '../../actions/data';
+import { addAssessment, generateReport } from '../../actions/data';
 
 
 const Assessment = ({ login, isAuthenticated, clientTypeState, clientId, setClientTypeState }) => {
@@ -21,7 +22,7 @@ const Assessment = ({ login, isAuthenticated, clientTypeState, clientId, setClie
     const onSubmit = async e => {
         e.preventDefault();
         const assessment = await addAssessment(assessmentFormState, clientId);
-
+        const report = await generateReport(assessment.id, clientId);
     }
 
     return (

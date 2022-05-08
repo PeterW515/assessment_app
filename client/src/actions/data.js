@@ -1,4 +1,5 @@
 import axios from 'axios';
+import download from 'downloadjs';
 import { setAlert } from './alert';
 import {
     REGISTER_SUCCESS,
@@ -64,7 +65,27 @@ export const addAssessment = async ({ squat, deadlift, bench, pullUps, sitUps, c
 
     try {
         const res = await axios.post('/api/assessments', body, config);
-        return res.data.payload.client;
+        return res.data.payload.assessment;
+    } catch (err) {
+        console.log(err);
+    }
+
+}
+
+//generate report
+export const generateReport = async (assessmentId, clientId) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/pdf',
+            'x-auth-token': localStorage.getItem('token')
+        },
+        responseType: 'blob'
+    }
+    try {
+        const res = await axios.get('/api/generateReports/clientId/' + clientId + '/assessmentId/' + assessmentId, config);
+        const content = res.headers['content-type'];
+        download(res.data, 'report', content);
+        return res.status;
     } catch (err) {
         console.log(err);
     }

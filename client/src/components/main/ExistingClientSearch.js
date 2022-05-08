@@ -9,7 +9,7 @@ import { login } from '../../actions/auth';
 const ExistingClientSearch = ({ login, isAuthenticated, clientTypeState, setClientTypeState }) => {
 
 
-    return <h1>Existing</h1>
+    return <h1>under development</h1>
 };
 ExistingClientSearch.propTypes = {
     login: PropTypes.func.isRequired,

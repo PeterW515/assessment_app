@@ -1,27 +1,27 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import { Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
 
-const ClientType = ({ login, isAuthenticated, clientTypeState, setClientTypeState }) => {
+const ClientType = ({ auth: { user } }) => {
 
-
+    const [clientType, setClientType] = useState('');
 
     const clientButtonHandler = async e => {
         e.preventDefault();
-        await setClientTypeState(e.target.name);
+        await setClientType(e.target.name);
     };
 
-    if (clientTypeState) {
+    if (clientType === 'newClient') {
         return <Navigate to="/client" />
+    } else if (clientType === 'existingClient') {
+        return <Navigate to="/existingClient" />
     }
 
-
     return (
-        <Fragment>
+        <div>
             <div className="row"></div>
             <div className="row"></div>
             <div className="row">
@@ -32,17 +32,17 @@ const ClientType = ({ login, isAuthenticated, clientTypeState, setClientTypeStat
                 <button className="btn waves-effect waves-light col s12" type="button" onClick={clientButtonHandler} name="existingClient">Existing Client
                 </button>
             </div>
-        </Fragment>
+        </div>
     );
 };
 
 ClientType.propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
+    auth: PropTypes.object.isRequired,
+
 };
 
-const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+    auth: state.auth,
 });
 
-export default connect(mapStateToProps, { login })(ClientType);
+export default connect(mapStateToProps, {})(ClientType);
