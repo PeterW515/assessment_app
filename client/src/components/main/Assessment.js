@@ -23,6 +23,7 @@ const Assessment = ({ login, isAuthenticated, clientTypeState, clientId, setClie
         e.preventDefault();
         const assessment = await addAssessment(assessmentFormState, clientId);
         const report = await generateReport(assessment.id, clientId);
+
     }
 
     return (
@@ -112,6 +113,9 @@ const Assessment = ({ login, isAuthenticated, clientTypeState, clientId, setClie
 
                     <button className="btn waves-effect waves-light col s12" type="submit" name="report">Generate Report
                     </button>
+                    <row className="container">
+                        <Link to='/clientType' className="btn waves-effect waves-light col s12">New Client</Link>
+                    </row>
                 </form>
             </div>
         </Fragment>
