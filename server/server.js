@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const app = express();
 
-const db = require('./config/connection');
+const db = require('../config/connection');
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
